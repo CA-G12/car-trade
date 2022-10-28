@@ -12,6 +12,8 @@
     "husky": "^8.0.1"
   },
   "scripts": {
+    "start": "cross-env NODE_ENV=production cd server && node src/index.js",
+    "heroku-postbuild": "cd client && npm i && npm run build",
     "client": "cd client && npm run start",
     "test": "cd server && npm run test",
     "format": "cd server && npm run format && cd ../client && npm run format",
