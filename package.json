@@ -12,8 +12,6 @@
     "husky": "^8.0.1"
   },
   "scripts": {
-    "postinstall": "npm run webpack",
-   "webpack": "webpack",
     "start": "cross-env NODE_ENV=production cd server && node src/index.js",
     "client": "cd client && npm run start",
     "test": "cd server && npm run test",
