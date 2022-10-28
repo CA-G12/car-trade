@@ -4,6 +4,7 @@
   "description": "An app facilitate a way to buy and sell a car simply and easily",
   "main": "commitlint.config.js",
   "dependencies": {
+    "cross-env": "^7.0.3",
     "is-ci": "^3.0.1"
   },
   "devDependencies": {
