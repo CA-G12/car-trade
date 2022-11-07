@@ -3,7 +3,6 @@ import Brand from '../../components/brand';
 import Images from '../../assets';
 import HomeCardSection from '../../components/HomeCardSection';
 import HomeCard from '../../components/HomeCard';
-import Footer from '../../components/footer/footer';
 
 function Landing() {
   return (
@@ -61,7 +60,6 @@ function Landing() {
           alt="rating"
         />
       </HomeCardSection>
-      <Footer />
     </>
   );
 }
