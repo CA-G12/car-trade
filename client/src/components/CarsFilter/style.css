@@ -14,7 +14,7 @@
     height: 620px;
     border-radius: 0.9rem;
     box-shadow: 4px 6px 9px 1px rgb(112, 112, 112);
-    position: fixed;
+    position: absolute;
 }
 
 .title {
