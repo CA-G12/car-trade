@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './style.css';
 
 function Footer() {
@@ -18,6 +19,7 @@ function Footer() {
         >
           <ol>
             <h1>Used cars by brand</h1>
+            <Link to="/"><li>Toyota Cars</li></Link>
             <li>Toyota Cars</li>
             <li>Nissan Cars</li>
             <li>Ford Cars</li>
@@ -26,6 +28,8 @@ function Footer() {
           <ol>
             <h1>Used cars by Type</h1>
             <li>Toyota Cars </li>
+            <Link to="/Cars"><li>cars</li></Link>
+
             <li>Nissan Cars </li>
             <li>Ford Cars </li>
             <li>BMW Cors </li>
