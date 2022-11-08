@@ -11,7 +11,7 @@ export interface Car {
   mileage:number,
   model:string,
   price:number,
-  quality:string,
+  quality:number,
   state:string,
   transmission:string,
   updatedAt:string,

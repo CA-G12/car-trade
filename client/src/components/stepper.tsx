@@ -22,7 +22,7 @@ const initialData = {
   price: 0,
   year: 0,
   mileage: 0,
-  quality: '',
+  quality: 0,
   isGoodPrice: false,
   location: '',
   state: '',

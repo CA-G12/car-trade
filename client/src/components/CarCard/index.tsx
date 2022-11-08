@@ -11,7 +11,7 @@ interface OutlineCardProps {
   id: number,
   image:string
   carName:string
-  quality:string
+  quality:number
   price:number
   mileage:number
   isGoodPrice:boolean
