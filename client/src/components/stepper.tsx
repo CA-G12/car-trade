@@ -22,7 +22,7 @@ const initialData = {
   price: 0,
   year: 0,
   mileage: 0,
-  quality: 0,
+  quality: '',
   isGoodPrice: false,
   location: '',
   state: '',
@@ -177,6 +177,47 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           >
             <FormControlLabel name="transmission" value="manual" control={<Radio />} label="Manual" />
             <FormControlLabel name="transmission" value="automatic" control={<Radio />} label="Automatic" />
+          </RadioGroup>
+        </Typography>
+      </Typography>
+      <Typography
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '32vw',
+          margin: '1rem 0',
+        }}
+        component="label"
+      >
+        Fuel
+        <Typography
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '32vw',
+            margin: '1rem 0',
+          }}
+          component="div"
+        >
+          <RadioGroup
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="manual"
+            name="fuel"
+            onChange={formik.handleChange}
+            value={!formik.values.fuel ? '' : formik.values.fuel}
+          >
+            <FormControlLabel name="fuel" value="manual" control={<Radio />} label="diesel" />
+            <FormControlLabel name="fuel" value="automatic" control={<Radio />} label="petrol" />
           </RadioGroup>
         </Typography>
       </Typography>
