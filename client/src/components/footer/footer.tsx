@@ -37,10 +37,11 @@ function Footer() {
           <div className="table">
             <ol>
               <h1>Used cars by brand</h1>
-              <Link to="/"><li>Toyota Cars</li></Link>
-              <Link to="/"><li>Nissan Cars</li></Link>
-              <Link to="/"><li>Ford Cars</li></Link>
-              <Link to="/"><li>BMW Cors</li></Link>
+              <Link to="/cars"><li>Toyota Cars </li></Link>
+              <Link to="/cars"><li>Nissan Cars </li></Link>
+              <Link to="/cars"><li>Ford Cars </li></Link>
+              <Link to="/cars"><li>BMW Cors </li></Link>
+              {' '}
             </ol>
             <ol>
               <h1>Used cars by Type</h1>
