@@ -50,7 +50,6 @@
 }
 @media only screen and (max-width: 450px) {
   .footer{
-      /* max-width: 60vw !important; */
       display: flex;
       align-items: center;
   }
