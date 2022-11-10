@@ -9,9 +9,6 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '39vw',
-  height: '53.5vh',
-  bgcolor: 'background.paper',
-  boxShadow: 24,
 };
 
 interface CarImageModelProp {

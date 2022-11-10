@@ -6,10 +6,9 @@
   .swiper-slide {
     background-position: center;
     background-size: cover;
-    width: 300px;
-    height: 300px;
+    width: 100px;
+    height: 100px;
   }
-  
   .swiper-slide img {
     display: block;
     width: 100%;
@@ -20,3 +19,14 @@
     display: flex;
     padding-bottom: 2rem;
   }
+  @media only screen and (max-width: 414px) {
+    .swiper {
+      width: 100%;
+      padding-top: 40px;
+    }
+    .main-swiper{
+      height: 35vh;
+      display: flex;
+      padding-bottom: 2rem;
+    }
+}
