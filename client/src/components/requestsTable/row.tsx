@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Box from '@mui/material/Box';
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -12,14 +12,17 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import httpInstance from '../../services/axiosConfig';
 import './style.css';
-import { RowProps } from '../../interfaces';
+import { RowProps, SnackBarContextTypeWithDispatch } from '../../interfaces';
+import { SnackBarContext } from '../../contexts';
 
 function Row(props:RowProps) {
   const {
-    car, state, setCarsData, setSnackBarProperties,
+    car, state, setCarsData,
   } = props;
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const { setSnackBarProperties }:SnackBarContextTypeWithDispatch = useContext(SnackBarContext);
+
   const deleteCar = async (id:number) => {
     try {
       setSnackBarProperties((preState) => ({ ...preState, open: false }));
@@ -54,15 +57,13 @@ function Row(props:RowProps) {
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell sx={{ fontSize: '16px' }} component="th" scope="row">
-          {car.model}
-        </TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">{car.brand}</TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">{car.year}</TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">{car.location}</TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">{car.mileage}</TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">{car.price}</TableCell>
-        <TableCell sx={{ fontSize: '16px' }} align="center">
+        <TableCell className="cell" component="th" scope="row">{car.brand}</TableCell>
+        <TableCell className="cell">{car.model}</TableCell>
+        <TableCell className="cell">{car.year}</TableCell>
+        <TableCell className="cell">{car.location}</TableCell>
+        <TableCell className="cell">{car.mileage}</TableCell>
+        <TableCell className="cell">{car.price}</TableCell>
+        <TableCell className="cell">
           { state === 'pending' ? (
             <Button
               onClick={() => handleAccept(car.id)}

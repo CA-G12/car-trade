@@ -13,9 +13,12 @@ import {
   Checkbox,
   Autocomplete,
   TextareaAutosize,
+  InputLabel,
 } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import { EditCarFormProps } from '../../interfaces';
 import brands from '../../assets/data/brands.json';
+import './style.css';
 
 function SellCarModal(props:EditCarFormProps) {
   const {
@@ -28,13 +31,12 @@ function SellCarModal(props:EditCarFormProps) {
         flexDirection: 'column',
         alignItems: 'center',
         width: '100%',
-        marginTop: '0.3rem',
+        marginTop: '1rem',
       }}
     >
 
       <form
         style={{
-          maxHeight: '80vh',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -44,18 +46,29 @@ function SellCarModal(props:EditCarFormProps) {
       >
         <Box sx={{
           display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
           justifyContent: 'space-between',
-          width: '100%',
+          width: '98%',
           marginBottom: '2rem',
+          // overflowY: { md: 'auto', xs: 'auto' },
         }}
         >
-          <Box sx={{ width: '47%' }}>
+          <Box
+            className="input_wrapper"
+            sx={{
+              width:
+            { sm: '100%', md: modalType === 'addRequest' ? '100%' : '47%' },
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: modalType === 'addRequest' ? 'center' : 'space-between',
+            }}
+          >
             <Typography
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                width: '32vw',
+                width: '90%',
                 marginBottom: '1rem',
               }}
               component="label"
@@ -92,11 +105,12 @@ function SellCarModal(props:EditCarFormProps) {
               </Typography>
             </Typography>
             <Typography
+              className="input_field"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                width: '32vw',
+                width: '90%',
                 marginBottom: '1rem',
               }}
               component="label"
@@ -105,19 +119,20 @@ function SellCarModal(props:EditCarFormProps) {
               <TextField
                 id="model"
                 name="model"
-                label="model"
                 value={formik.values.model}
                 onChange={formik.handleChange}
                 error={formik.touched.model && Boolean(formik.errors.model)}
                 helperText={formik.touched.model && formik.errors.model}
+                className="form_field"
               />
             </Typography>
             <Typography
+              className="input_field"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                width: '32vw',
+                width: '90%',
                 marginBottom: '1rem',
               }}
               component="label"
@@ -126,12 +141,12 @@ function SellCarModal(props:EditCarFormProps) {
               <TextField
                 id="year"
                 name="year"
-                label="year"
                 type="number"
                 value={!formik.values.year ? '' : formik.values.year}
                 onChange={formik.handleChange}
                 error={formik.touched.year && Boolean(formik.errors.year)}
                 helperText={formik.touched.year && formik.errors.year}
+                className="form_field"
               />
             </Typography>
             <Typography
@@ -139,7 +154,7 @@ function SellCarModal(props:EditCarFormProps) {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'start',
-                width: '32vw',
+                width: '90%',
                 margin: '1rem 0',
               }}
               component="label"
@@ -150,20 +165,21 @@ function SellCarModal(props:EditCarFormProps) {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  width: '32vw',
+                  width: '100%',
                   margin: '1rem 0',
                 }}
                 component="div"
+                className="form_field"
               >
                 <TextField
                   id="mileage"
                   name="mileage"
-                  label="mileage"
                   type="number"
                   value={!formik.values.mileage ? '' : formik.values.mileage}
                   onChange={formik.handleChange}
                   error={formik.touched.mileage && Boolean(formik.errors.mileage)}
                   helperText={formik.touched.mileage && formik.errors.mileage}
+                  className="form_field"
                 />
                 <RadioGroup
                   sx={{
@@ -171,6 +187,7 @@ function SellCarModal(props:EditCarFormProps) {
                     alignItems: 'center',
                     flexDirection: 'row',
                     justifyContent: 'space-around',
+                    flexWrap: 'nowrap',
                     width: '15rem',
                   }}
                   aria-labelledby="demo-radio-buttons-group-label"
@@ -185,11 +202,12 @@ function SellCarModal(props:EditCarFormProps) {
             </Typography>
 
             <Typography
+              className="input_field"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                width: '32vw',
+                width: '90%',
                 marginBottom: '1rem',
               }}
               component="label"
@@ -203,14 +221,17 @@ function SellCarModal(props:EditCarFormProps) {
                 onChange={formik.handleChange}
                 error={formik.touched.location && Boolean(formik.errors.location)}
                 helperText={formik.touched.location && formik.errors.location}
+                className="form_field"
+                sx={{ mb: '1.5rem' }}
               />
             </Typography>
             <Typography
+              className="input_field"
               sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                width: '32vw',
+                width: '90%',
                 marginBottom: '1rem',
               }}
               component="label"
@@ -219,28 +240,29 @@ function SellCarModal(props:EditCarFormProps) {
               <TextField
                 id="price"
                 name="price"
-                label="price"
                 type="number"
                 value={!formik.values.price ? '' : formik.values.price}
                 onChange={formik.handleChange}
                 error={formik.touched.price && Boolean(formik.errors.price)}
                 helperText={formik.touched.price && formik.errors.price}
+                className="form_field"
               />
             </Typography>
           </Box>
           {children}
         </Box>
         <Button
+          endIcon={<SendIcon />}
           sx={{
-            mb: '0.5rem',
-            width: modalType === 'checkRequest' ? '50%' : '100%',
+            mb: '1.3rem',
+            width: modalType === 'checkRequest' ? '50%' : '50%',
           }}
           color="primary"
           variant="contained"
           fullWidth
           type="submit"
         >
-          Submit
+          Send
         </Button>
 
       </form>

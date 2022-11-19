@@ -78,8 +78,6 @@ export interface Params {
 export interface RowProps {
   car:CarWithCustomerInfo, state:string,
   setCarsData:React.Dispatch<React.SetStateAction<CarsWithCustomerRow>>,
-  setSnackBarProperties :
-  React.Dispatch<React.SetStateAction<{ open:boolean, message:string, type:'success' | 'error' }>>
 }
 export interface UserContextType {
   id: number,
@@ -87,9 +85,20 @@ export interface UserContextType {
   username: string,
   role: string
 }
+
 export interface UserContextTypeWithDispatch {
   userInfo: UserContextType | null,
   setUserInfo:(c: UserContextType | null) => void,
+}
+export interface SnackBarContextType {
+  open:boolean,
+  message:string,
+  type:'success' | 'error'
+}
+
+export interface SnackBarContextTypeWithDispatch {
+  snackBarProperties: SnackBarContextType,
+  setSnackBarProperties:React.Dispatch<React.SetStateAction<SnackBarContextType>>
 }
 export interface PrivateType {
   children:JSX.Element,
@@ -101,6 +110,19 @@ export interface LoginProtected {
 export interface EditCarFormProps {
   modalType: 'addRequest' | 'checkRequest',
   id: string | undefined,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   formik : any,
   children: JSX.Element | undefined
+}
+
+export interface UserSellRequest {
+  createdAt:string,
+  id:number,
+  model:string,
+  state:string,
+}
+
+export interface UserSellRequestsResponse {
+  msg: string,
+  data:UserSellRequest[]
 }

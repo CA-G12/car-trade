@@ -5,11 +5,12 @@ import {
 } from '@mui/material';
 import { Elements } from '@stripe/react-stripe-js';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 
+import { useLocation, useNavigate } from 'react-router-dom';
 import StripeForm from '../StripForm';
-import CustomizedSnackbars from '../snackbar';
+import { UserContext } from '../../contexts';
 
 const stripePromise = loadStripe(
   'pk_test_TYooMQauvdEDq54NiTphI7jx',
@@ -19,17 +20,14 @@ function CarControll() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [snackBar, setSnackBar] = useState<{ type: 'error' | 'success', message: string, open: boolean }>({
-    type: 'error',
-    message: '',
-    open: false,
-  });
+  const { userInfo } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
   const options = {
     clientSecret: 'pi_1DseH42eZvKYlo2C5UQDyYph_secret_gowsU3j2SgDfFECrHNzE8UtGK',
   };
-  const handleCloseSnackBar = () => {
-    setSnackBar((prevState) => ({ ...prevState, open: true }));
-  };
+
   return (
     <>
       <section className="buttons-container">
@@ -45,7 +43,17 @@ function CarControll() {
           <WhatsApp />
           CONTACT
         </Button>
-        <Button onClick={handleOpen} sx={{ backgroundColor: '#0A20E6' }} variant="contained" size="large">
+        <Button
+          onClick={() => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+            userInfo?.role === 'user'
+              ? handleOpen()
+              : navigate('/login', { state: { currentLocation: pathname } });
+          }}
+          sx={{ backgroundColor: '#0A20E6' }}
+          variant="contained"
+          size="large"
+        >
           Buy
         </Button>
       </section>
@@ -59,16 +67,8 @@ function CarControll() {
           className="strip_Model"
         >
           <Elements stripe={stripePromise} options={options}>
-            <StripeForm
-              setSnackBar={setSnackBar}
-            />
+            <StripeForm />
           </Elements>
-          <CustomizedSnackbars
-            open={snackBar.open}
-            handleClose={handleCloseSnackBar}
-            message={snackBar.message}
-            type={snackBar.type}
-          />
         </Box>
       </Modal>
     </>

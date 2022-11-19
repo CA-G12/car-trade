@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { UserContext } from '../context';
+import { UserContext } from '../contexts';
 import { LoginProtected, PrivateType, UserContextTypeWithDispatch } from '../interfaces';
 
 function ProtectedRoute({ children, roles }:PrivateType) {
@@ -18,11 +18,12 @@ function ProtectedRoute({ children, roles }:PrivateType) {
 }
 function LoginProtectedRoute({ children }:LoginProtected) {
   const { userInfo }: UserContextTypeWithDispatch = useContext(UserContext);
+  const { state } = useLocation();
   if (userInfo) {
     if (userInfo?.role === 'user') {
-      return <Navigate to="/" replace />;
+      return <Navigate to={state?.currentLocation || '/'} replace />;
     } if (userInfo?.role === 'admin') {
-      return <Navigate to="/admin" replace />;
+      return <Navigate to={state?.currentLocation || '/admin'} replace />;
     }
   }
   return children;

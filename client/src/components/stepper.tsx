@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable react/jsx-props-no-spreading */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 import {
   Checkbox, Button,
@@ -12,9 +10,10 @@ import { useFormik } from 'formik';
 import SellCarModal from './sendRequsetModel/Form';
 import { checkCarSchema } from '../helpers/validationSchema';
 import { featuresArray } from '../assets/data/features';
-import CustomizedSnackbars from './snackbar';
-import { CarWithImages } from '../interfaces';
+import { CarWithImages, SnackBarContextTypeWithDispatch } from '../interfaces';
 import httpInstance from '../services';
+import UploadFiles from './UpLoadImages';
+import { SnackBarContext } from '../contexts';
 
 const initialData = {
   id: 0,
@@ -44,10 +43,10 @@ const convertToKM = (value: number, type: string) => {
 
 function CustomStepper({ id }:{ id:string | undefined }) {
   const [carData, setCarData] = useState<CarWithImages>(initialData);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState<boolean>(true);
-  const [snackBarProperties, setSnackBarProperties] = useState<
-  { open:boolean, message:string, type:'success' | 'error' }>({ open: false, message: '', type: 'error' });
-  const [activeStep, setActiveStep] = useState(0);
+  const { setSnackBarProperties }:SnackBarContextTypeWithDispatch = useContext(SnackBarContext);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   useEffect(() => {
     const getCarInfo = async () => {
@@ -65,6 +64,15 @@ function CustomStepper({ id }:{ id:string | undefined }) {
     getCarInfo();
   }, []);
 
+  const handleNext = () => {
+    setActiveStep((prevState) => prevState + 1);
+  };
+
+  const handleBack = () => {
+    if (activeStep) {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       ...carData, type: '',
@@ -80,6 +88,7 @@ function CustomStepper({ id }:{ id:string | undefined }) {
         setSnackBarProperties((preState) => ({ ...preState, open: false }));
         await httpInstance.put(`/cars/${id}`, values);
         setLoading(false);
+        handleNext();
         setSnackBarProperties(
           {
             open: true,
@@ -98,13 +107,13 @@ function CustomStepper({ id }:{ id:string | undefined }) {
     label: 'Car Into',
     component:
   <SellCarModal id={id} modalType="checkRequest" formik={formik}>
-    <Box sx={{ width: '47%' }}>
+    <Box sx={{ width: { sm: '100%', md: '47%' }, marginTop: { sm: '1rem', md: '0' } }}>
       <Typography
         sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '32vw',
+          width: '90%',
           marginBottom: '1rem',
         }}
         component="label"
@@ -115,7 +124,7 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           name="quality"
           label="quality"
           type="number"
-          value={formik.values.quality}
+          value={formik.values.quality || 0}
           onChange={formik.handleChange}
           error={formik.touched.quality && Boolean(formik.errors.quality)}
           helperText={formik.touched.quality && formik.errors.quality}
@@ -128,7 +137,7 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
-          width: '32vw',
+          width: { xs: '100%', ms: '100%', md: '90%' },
           margin: '1rem 0',
         }}
         component="label"
@@ -138,8 +147,8 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           sx={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between',
-            width: '32vw',
+            justifyContent: 'end',
+            width: '90%',
             margin: '1rem 0',
           }}
           component="div"
@@ -149,8 +158,9 @@ function CustomStepper({ id }:{ id:string | undefined }) {
               display: 'flex',
               alignItems: 'center',
               flexDirection: 'row',
-              justifyContent: 'flex-end',
-              width: '100%',
+              justifyContent: 'space-around',
+              flexWrap: 'nowrap',
+              width: '15rem',
             }}
             aria-labelledby="demo-radio-buttons-group-label"
             defaultValue="manual"
@@ -163,36 +173,73 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           </RadioGroup>
         </Typography>
       </Typography>
-
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-
+      <Typography
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          width: '90%',
+          margin: '1rem 0',
+        }}
+        component="label"
+      >
+        Fuel
         <Typography
           sx={{
             display: 'flex',
-            flexDirection: 'row',
             alignItems: 'center',
-            justifyContent: 'center',
-            width: '50%',
+            justifyContent: 'end',
+            width: '90%',
             margin: '1rem 0',
           }}
-          component="label"
+          component="div"
         >
-          <Checkbox
-            name="isGoodPrice"
-            id="isGoodPrice"
-            value={formik.values.isGoodPrice}
+          <RadioGroup
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              flexWrap: 'nowrap',
+              width: '15rem',
+            }}
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="manual"
+            name="fuel"
             onChange={formik.handleChange}
-          />
-
-          Is Good Price
+            value={!formik.values.fuel ? '' : formik.values.fuel}
+          >
+            <FormControlLabel name="fuel" value="petrol" control={<Radio />} label="petrol" />
+            <FormControlLabel name="fuel" value="diesel" control={<Radio />} label="diesel" />
+          </RadioGroup>
         </Typography>
-      </Box>
+      </Typography>
+
+      <Typography
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          margin: '1rem 0',
+        }}
+        component="label"
+      >
+        <Checkbox
+          name="isGoodPrice"
+          id="isGoodPrice"
+          value={formik.values.isGoodPrice}
+          onChange={formik.handleChange}
+        />
+
+        Is Good Price
+      </Typography>
       <Typography
         sx={{
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          width: '32vw',
+          width: '90%',
           marginBottom: '1rem',
         }}
         component="label"
@@ -228,7 +275,7 @@ function CustomStepper({ id }:{ id:string | undefined }) {
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          width: '32vw',
+          width: '90%',
           marginBottom: '1rem',
         }}
         component="label"
@@ -261,33 +308,13 @@ function CustomStepper({ id }:{ id:string | undefined }) {
     </Box>
   </SellCarModal>,
 
-  }, { label: 'Car Image', component: 'second' }];
-
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackBarProperties((preState) => ({ ...preState, open: false }));
-  };
-
-  const handleNext = () => {
-    setActiveStep((prevSate) => prevSate + 1);
-  };
-
-  const handleBack = () => {
-    if (!activeStep) {
-      //  here will send request to server then setActiveStep +1
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    }
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-  };
+  }, {
+    label: 'Upload Images',
+    component: <UploadFiles carId={id} />,
+  }];
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ mb: '1.3rem', width: '100%' }}>
       <Stepper activeStep={activeStep}>
         {steps.map(({ label }) => (
           <Step key={label}>
@@ -296,38 +323,22 @@ function CustomStepper({ id }:{ id:string | undefined }) {
         ))}
       </Stepper>
       {steps[activeStep].component}
-      {activeStep === steps.length ? (
-        <>
-          <Typography sx={{ mt: 2, mb: 1 }}>
-            All steps completed - you&apos;re finished
-          </Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-            <Box sx={{ flex: '1 1 auto' }} />
-            <Button onClick={handleReset}>Reset</Button>
-          </Box>
-        </>
-      ) : (
+      {activeStep < steps.length ? (
         <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-          <Button
-            onClick={handleBack}
-            sx={{ mr: 1 }}
-            disabled={activeStep === 0}
-          >
-            Back
-          </Button>
-          <Box sx={{ flex: '1 1 auto' }} />
-          <Button onClick={handleNext}>
-            {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-          </Button>
+          {activeStep === 0 ? <> </> : (
+            <Button
+              onClick={handleBack}
+              sx={{ mr: 1 }}
+            >
+              Back
+            </Button>
+          )}
+
         </Box>
+      ) : (
+        <> </>
       )}
 
-      <CustomizedSnackbars
-        open={snackBarProperties.open}
-        handleClose={handleClose}
-        message={snackBarProperties.message}
-        type={snackBarProperties.type}
-      />
     </Box>
   );
 }
