@@ -3,9 +3,14 @@
     display: flex;
     justify-content: space-between;
     align-content: center;
+    flex-direction: column;
+}
+.footers{
+  display: flex;
 }
 
-.cars_Container {
+.cars_Container{
+
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import CarCard from '../../components/CarCard';
 import CarsFilter from '../../components/CarsFilter';
 import DrawerAppBar from '../../components/FilterSideInMobile';
+import Footer from '../../components/footer/footer';
 import { CarSkeleton } from '../../components/skeletons';
 import { CarsCount, CarsWithImagesRow } from '../../interfaces';
 import './style.css';
@@ -106,6 +107,7 @@ function Cars() {
           variant="outlined"
         />
       </div>
+      <Footer />
     </div>
   );
 }
