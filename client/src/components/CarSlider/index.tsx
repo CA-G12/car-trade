@@ -32,7 +32,6 @@ function CarSlider({ carImages }:SliderImages) {
         }}
         navigation
         grabCursor
-        // centeredSlides
         spaceBetween={-70}
         slidesPerView={3}
         coverflowEffect={{
@@ -49,7 +48,7 @@ function CarSlider({ carImages }:SliderImages) {
           <SwiperSlide
             onClick={() => handleImageClick(img.image)}
             key={img.id}
-            style={{ cursor: 'pointer' }}
+            style={{ cursor: 'pointer', height: '50px' }}
           >
             <img src={img.image} alt="" />
           </SwiperSlide>
